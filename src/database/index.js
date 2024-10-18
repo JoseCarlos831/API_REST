@@ -8,15 +8,20 @@ const ItemVenda = require('../models/ItemVenda');
 
 const models = [Produto, Cliente, Venda, Estoque, ItemVenda];
 
-const connection = new Sequelize(databaseConfig);
+const sequelize = new Sequelize(databaseConfig);
 
-models.forEach((model) => {
-  if (model.associate) {
-    model.associate(connection.models);
-  }
-});
+models.forEach((model) => model.init(sequelize));
+models.forEach((model) => model.associate && model.associate(sequelize.models));
 
 /* models.forEach((model) => model.init(connection));
 models.forEach((model) => model.associate && model.associate(connection.models)); */
 
-module.exports = connection;
+sequelize.sync({ alter: true })
+  .then(() => {
+    console.log('Banco de dados sincronizado');
+  })
+  .catch((err) => {
+    console.error('Erro ao sincronizar banco de dados:', err);
+  });
+
+module.exports = sequelize;

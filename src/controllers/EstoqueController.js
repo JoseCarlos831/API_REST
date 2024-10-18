@@ -3,7 +3,7 @@ const Produto = require('../models/Produto');
 
 class EstoqueController {
   // Listar todos os itens do estoque
-  async listAll(req, res) {
+  async listarEstoque(req, res) {
     try {
       const estoques = await Estoque.findAll({ include: Produto });
       res.json(estoques);
@@ -11,8 +11,8 @@ class EstoqueController {
       res.status(500).json({ error: 'Erro ao listar estoque' });
     }
   }
+  /* Analisar os codigos porque provalvelmente esta errado */
 
-  // Registrar entrada no estoque
   async registrarEntrada(req, res) {
     const { produtoId, quantidade } = req.body;
     try {

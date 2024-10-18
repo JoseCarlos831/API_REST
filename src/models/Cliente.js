@@ -1,11 +1,20 @@
-import Sequelize, { Model } from 'sequelize';
+const { Model, DataTypes } = require('sequelize');
 
-export default class Cliente extends Model {
+class Cliente extends Model {
+  static associate(models) {
+    this.hasMany(models.Venda, { foreignKey: 'cliente_id_cliente', as: 'venda' });
+  }
+
   static init(sequelize) {
     super.init({
+      id_cliente: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       nome: {
-        type: Sequelize.STRING,
-        defaultValue: '',
+        type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 255],
@@ -14,8 +23,8 @@ export default class Cliente extends Model {
         },
       },
       cpf: {
-        type: Sequelize.STRING,
-        defaultValue: '',
+        type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 14],
@@ -24,8 +33,8 @@ export default class Cliente extends Model {
         },
       },
       endereco: {
-        type: Sequelize.STRING,
-        defaultValue: '',
+        type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 255],
@@ -34,8 +43,8 @@ export default class Cliente extends Model {
         },
       },
       telefone: {
-        type: Sequelize.STRING,
-        defaultValue: '',
+        type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 255],
@@ -49,8 +58,5 @@ export default class Cliente extends Model {
     });
     return this;
   }
-
-  static associate(models) {
-    this.hasMany(models.Venda, { foreignKey: 'cliente_id_cliente' });
-  }
 }
+module.exports = Cliente;

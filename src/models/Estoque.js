@@ -1,20 +1,20 @@
-import Sequelize, { Model } from 'sequelize';
+const { Model, DataTypes } = require('sequelize');
 
-export default class Estoque extends Model {
+class Estoque extends Model {
+  static associate(models) {
+    this.belongsTo(models.Produto, { foreignKey: 'produto_id_produto', as: 'produto' });
+  }
+
   static init(sequelize) {
     super.init({
-      codigoEstoque: {
-        type: Sequelize.INTEGER,
-        defaultValue: '',
-        validate: {
-          isInt: {
-            msg: 'O Codigo precisa ser um número inteiro',
-          },
-        },
+      id_estoque: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
       quantidadeEstoque: {
-        type: Sequelize.INTEGER,
-        defaultValue: '',
+        type: DataTypes.INTEGER,
+        allowNull: false,
         validate: {
           isInt: {
             msg: 'A quantidade precisa ser um número inteiro',
@@ -22,8 +22,8 @@ export default class Estoque extends Model {
         },
       },
       quantidadeMin: {
-        type: Sequelize.INTEGER,
-        defaultValue: '',
+        type: DataTypes.INTEGER,
+        allowNull: false,
         validate: {
           isInt: {
             msg: 'A quantidade precisa ser um número inteiro',
@@ -31,8 +31,8 @@ export default class Estoque extends Model {
         },
       },
       quantidadeMax: {
-        type: Sequelize.INTEGER,
-        defaultValue: '',
+        type: DataTypes.INTEGER,
+        allowNull: false,
         validate: {
           isInt: {
             msg: 'A quantidade precisa ser um número inteiro',
@@ -45,8 +45,5 @@ export default class Estoque extends Model {
     });
     return this;
   }
-
-  static associate(models) {
-    this.belongsTo(models.Produto, { foreignKey: 'produto_id_produto' });
-  }
 }
+module.exports = Estoque;

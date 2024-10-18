@@ -1,21 +1,26 @@
-import Sequelize, { Model } from 'sequelize';
+const { Model, DataTypes } = require('sequelize');
 
-export default class ItemVenda extends Model {
+class ItemVenda extends Model {
+  static associate(models) {
+    this.belongsTo(models.Venda, { foreignKey: 'venda_id_venda', as: 'venda' });
+    this.belongsTo(models.Produto, { foreignKey: 'produto_id_produto', as: 'produto' });
+  }
+
   static init(sequelize) {
     super.init({
       quantidade: {
-        type: Sequelize.INTEGER,
-        defaultValue: '',
+        type: DataTypes.INTEGER,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 255],
-            msg: 'A Qauntidade precisa ser um número inteiro',
+            msg: 'A Quantidade precisa ser um número inteiro',
           },
         },
       },
       valorUnitario: {
-        type: Sequelize.FLOAT,
-        defaultValue: '',
+        type: DataTypes.FLOAT,
+        allowNull: false,
         validate: {
           isFloat: {
             msg: 'O Valor Unitario precisa ser um número inteiro ou de ponto flutuante',
@@ -23,8 +28,8 @@ export default class ItemVenda extends Model {
         },
       },
       valorTotal: {
-        type: Sequelize.FLOAT,
-        defaultValue: 0,
+        type: DataTypes.FLOAT,
+        allowNull: false,
         validate: {
           isFloat: {
             msg: 'O Valor Total precisa ser um número inteiro ou de ponto flutuante',
@@ -37,9 +42,5 @@ export default class ItemVenda extends Model {
     });
     return this;
   }
-
-  static associate(models) {
-    this.belongsTo(models.Venda, { foreignKey: 'venda_id_venda' });
-    this.belongsTo(models.Produto, { foreignKey: 'produto_id_produto' });
-  }
 }
+module.exports = ItemVenda;

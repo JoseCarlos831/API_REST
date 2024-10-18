@@ -1,31 +1,21 @@
-import Sequelize, { Model } from 'sequelize';
+const { Model, DataTypes } = require('sequelize');
 
-export default class Produto extends Model {
-  static async createProduto(dadosProduto) {
-    console.log('createProduto foi chamado');
-    try {
-      const produto = await Produto.create(dadosProduto);
-      return produto;
-    } catch (error) {
-      throw new Error(`Erro ao criar o produto no model: ${error.message}`);
-    }
-  }
-
+class Produto extends Model {
   static associate(models) {
-    this.hasOne(models.Estoque, { foreignKey: 'produto_id_produto' });
-    this.hasMany(models.ItemVenda, { foreignKey: 'produto_id_produto' });
+    this.hasMany(models.ItemVenda, { foreignKey: 'produto_id_produto', as: 'itensVenda' });
+    this.hasOne(models.Estoque, { foreignKey: 'produto_id_produto', as: 'estoque' });
   }
 
   static init(sequelize) {
     super.init({
       id_produto: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
       nomeProduto: {
-        type: Sequelize.STRING,
-        defaultValue: '',
+        type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 255],
@@ -34,18 +24,18 @@ export default class Produto extends Model {
         },
       },
       descricao: {
-        type: Sequelize.STRING,
-        defaultValue: '',
+        type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 255],
-            msg: 'A descriçao precisa ter entre 3 e 255 caracteres.',
+            msg: 'A descrição precisa ter entre 3 e 255 caracteres.',
           },
         },
       },
       categoria: {
-        type: Sequelize.STRING,
-        defaultValue: '',
+        type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 100],
@@ -54,8 +44,8 @@ export default class Produto extends Model {
         },
       },
       preco: {
-        type: Sequelize.FLOAT,
-        defaultValue: 0,
+        type: DataTypes.FLOAT,
+        allowNull: false,
         validate: {
           isFloat: {
             msg: 'Preço precisa ser um número inteiro ou de ponto flutuante',
@@ -63,11 +53,12 @@ export default class Produto extends Model {
         },
       },
       codigo: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true,
         validate: {
           isInt: {
-            msg: 'Codigo precisa ser um número inteiro',
+            msg: 'Código precisa ser um número inteiro',
           },
         },
       },
@@ -78,3 +69,5 @@ export default class Produto extends Model {
     return this;
   }
 }
+
+module.exports = Produto;

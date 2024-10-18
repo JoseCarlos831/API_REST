@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 module.exports = {
-  dialect: 'mysql',
+  dialect: 'mysql2',
   host: process.env.DB_HOST || '127.0.0.1',
   port: process.env.DB_PORT || 3306,
   username: process.env.DB_USER || 'root',

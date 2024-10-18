@@ -1,13 +1,13 @@
 const Venda = require('../models/Venda');
 const Cliente = require('../models/Cliente');
 
+console.log('Revisar Venda');
+
 class VendaController {
-  // Cria uma nova venda
-  async create(req, res) {
+  async createVenda(req, res) {
     try {
       const { dataVenda, clienteId, valorTotal } = req.body;
 
-      // Verificando se o cliente existe
       const cliente = await Cliente.findByPk(clienteId);
       if (!cliente) {
         return res.status(404).json({ error: 'Cliente não encontrado' });
@@ -25,8 +25,7 @@ class VendaController {
     }
   }
 
-  // Lista todas as vendas
-  async listAll(req, res) {
+  async listarVenda(req, res) {
     try {
       const vendas = await Venda.findAll({
         include: [{ model: Cliente, as: 'cliente' }],
@@ -37,8 +36,7 @@ class VendaController {
     }
   }
 
-  // Atualiza uma venda existente
-  async update(req, res) {
+  async updateVenda(req, res) {
     try {
       const { id } = req.params;
       const venda = await Venda.findByPk(id);
@@ -66,8 +64,7 @@ class VendaController {
     }
   }
 
-  // Deleta uma venda
-  async delete(req, res) {
+  async deleteVenda(req, res) {
     try {
       const { id } = req.params;
       const venda = await Venda.findByPk(id);

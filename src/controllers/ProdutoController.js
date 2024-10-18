@@ -1,12 +1,16 @@
-const Produto = require('../models/Produto').default;
+const Produto = require('../models/Produto');
 
 class ProdutoController {
-  async create(req, res) {
+  async createProduto(req, res) {
     const {
-      nomeProduto, descricao, categoria, preco, codigo,
+      nomeProduto,
+      descricao,
+      categoria,
+      preco,
+      codigo,
     } = req.body;
     try {
-      const produto = Produto.create({
+      const produto = await Produto.create({
         nomeProduto,
         descricao,
         categoria,
@@ -15,12 +19,12 @@ class ProdutoController {
       });
       return res.status(201).json(produto);
     } catch (error) {
-      console.error(error); // Verifique o erro no console
-      return res.status(500).json({ error: 'Erro ao criar produto no controller ' });
+      console.error(error); console.log(req.body);
+      return res.status(500).json({ error: 'Erro ao criar produto no controller', details: error.message });
     }
   }
 
-  async listAllProduto(req, res) {
+  async listarProduto(req, res) {
     try {
       const produto = await Produto.findAll();
       return res.status(200).json(produto);
@@ -29,11 +33,13 @@ class ProdutoController {
     }
   }
 
-  // Atualizar um produto
   async updateProduto(req, res) {
     const { id } = req.params;
     const {
-      nomeProduto, descricao, categoria, preco,
+      nomeProduto,
+      descricao,
+      categoria,
+      preco,
     } = req.body;
     try {
       const produto = await Produto.findByPk(id);
@@ -42,7 +48,10 @@ class ProdutoController {
       }
 
       await produto.update({
-        nomeProduto, descricao, categoria, preco,
+        nomeProduto,
+        descricao,
+        categoria,
+        preco,
       });
       return res.json(produto);
     } catch (error) {
@@ -50,7 +59,6 @@ class ProdutoController {
     }
   }
 
-  // Deletar um produto
   async deleteProduto(req, res) {
     const { id } = req.params;
     try {

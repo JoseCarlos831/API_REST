@@ -1,11 +1,11 @@
-import Sequelize, { Model } from 'sequelize';
-import bcrypt from 'bcrypt';
+const { Model, DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 
-export default class Usuario extends Model {
+class Usuario extends Model {
   static init(sequelize) {
     super.init({
       email: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: {
           msg: 'Este e-mail já está em uso.',
@@ -17,7 +17,7 @@ export default class Usuario extends Model {
         },
       },
       senha: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           len: {
@@ -45,3 +45,4 @@ export default class Usuario extends Model {
     return bcrypt.compareSync(senha, this.senha);
   }
 }
+module.exports = Usuario;

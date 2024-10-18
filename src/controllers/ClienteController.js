@@ -1,28 +1,39 @@
 const Cliente = require('../models/Cliente');
 
 class ClienteController {
-  // Cria um novo cliente
-  async create(req, res) {
+  async createCliente(req, res) {
+    const {
+      nome,
+      cpf,
+      endereco,
+      telefone,
+    } = req.body;
     try {
-      const cliente = await Cliente.create(req.body);
-      return res.status(201).json(cliente);
+      const produto = await Cliente.create({
+        nome,
+        cpf,
+        endereco,
+        telefone,
+      });
+      return res.status(201).json(produto);
     } catch (error) {
-      return res.status(400).json({ error: 'Erro ao criar cliente', details: error.message });
+      console.error(error);
+      return res.status(500).json({ error: 'Erro ao criar Cliente no controller', details: error.message });
     }
   }
 
   // Lista todos os clientes
-  async listAll(_req, res) {
+  async listarCliente(req, res) {
     try {
       const clientes = await Cliente.findAll();
       return res.status(200).json(clientes);
     } catch (error) {
-      return res.status(500).json({ error: 'Erro ao listar clientes' });
+      return res.status(500).json({ error: 'Erro ao listar clientes', details: error.message });
     }
   }
 
   // Atualiza um cliente existente
-  async update(req, res) {
+  async updateCliente(req, res) {
     try {
       const { id } = req.params;
       const cliente = await Cliente.findByPk(id);
@@ -38,7 +49,7 @@ class ClienteController {
   }
 
   // Deleta um cliente
-  async delete(req, res) {
+  async deleteCliente(req, res) {
     try {
       const { id } = req.params;
       const cliente = await Cliente.findByPk(id);
@@ -49,7 +60,7 @@ class ClienteController {
       await cliente.destroy();
       return res.status(200).json({ message: 'Cliente deletado com sucesso' });
     } catch (error) {
-      return res.status(500).json({ error: 'Erro ao deletar cliente' });
+      return res.status(500).json({ error: 'Erro ao deletar cliente', details: error.message });
     }
   }
 }

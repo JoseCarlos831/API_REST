@@ -3,8 +3,10 @@ const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 */
+console.log('Revisar User');
+
 class UsuarioController {
-  async create(req, res) {
+  async createUsuario(req, res) {
     try {
       const { email, senha } = req.body;
 
@@ -29,7 +31,7 @@ class UsuarioController {
   }
 
   // Lista todos os usuários
-  async listAll(req, res) {
+  async listarUsuario(req, res) {
     try {
       const usuarios = await Usuario.findAll({
         attributes: ['id', 'email'], // Retorna apenas o id e email

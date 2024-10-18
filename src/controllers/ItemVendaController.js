@@ -1,9 +1,12 @@
 const ItemVenda = require('../models/ItemVenda');
 const Produto = require('../models/Produto');
 
+/* codigo todo cagado fazer revisao */
+console.log('Revisar Item Venda');
+
 class ItemVendaController {
   // Cria um novo item de venda
-  async create(req, res) {
+  async createItemVenda(req, res) {
     try {
       const { produtoId, quantidade, valorUnitario } = req.body;
 
@@ -26,19 +29,19 @@ class ItemVendaController {
   }
 
   // Lista todos os itens de venda
-  async listAll(req, res) {
+  async listarItemVenda(req, res) {
     try {
       const itensVenda = await ItemVenda.findAll({
         include: [{ model: Produto, as: 'produto' }],
       });
       return res.status(200).json(itensVenda);
     } catch (error) {
-      return res.status(500).json({ error: 'Erro ao listar itens de venda' });
+      return res.status(500).json({ error: 'Erro ao listar itens de venda', details: error.message });
     }
   }
 
   // Atualiza um item de venda existente
-  async update(req, res) {
+  async updateItemVenda(req, res) {
     try {
       const { id } = req.params;
       const itemVenda = await ItemVenda.findByPk(id);
@@ -56,7 +59,7 @@ class ItemVendaController {
 
       return res.status(200).json(updatedItemVenda);
     } catch (error) {
-      return res.status(400).json({ error: 'Erro ao atualizar item de venda' });
+      return res.status(400).json({ error: 'Erro ao atualizar item de venda', details: error.message });
     }
   }
 

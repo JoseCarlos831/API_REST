@@ -1,11 +1,16 @@
-import Sequelize, { Model } from 'sequelize';
+const { Model, DataTypes } = require('sequelize');
 
-export default class Venda extends Model {
+class Venda extends Model {
+  static associate(models) {
+    this.belongsTo(models.Cliente, { foreignKey: 'cliente_id_cliente', as: 'cliente' });
+    this.hasMany(models.ItemVenda, { foreignKey: 'venda_id_venda', as: 'itemvenda' });
+  }
+
   static init(sequelize) {
     super.init({
       dataVenda: {
-        type: Sequelize.DATE,
-        defaultValue: '',
+        type: DataTypes.DATE,
+        allowNull: false,
         validate: {
           len: {
             args: [3, 255],
@@ -19,9 +24,5 @@ export default class Venda extends Model {
     });
     return this;
   }
-
-  static associate(models) {
-    this.belongsTo(models.Cliente, { foreignKey: 'cliente_id_cliente' });
-    this.hasMany(models.ItemVenda, { foreignKey: 'venda_id_venda' });
-  }
 }
+module.exports = Venda;
