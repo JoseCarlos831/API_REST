@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 module.exports = {
-  dialect: 'mysql2',
+  dialect: 'mysql',
   host: process.env.DB_HOST || '127.0.0.1',
   port: process.env.DB_PORT || 3306,
   username: process.env.DB_USER || 'root',
@@ -13,7 +13,7 @@ module.exports = {
     underscoredAll: true,
   },
   dialectOptions: {
-    timezone: 'America/Sao_Paulo',
+    timezone: 'Etc/GMT-3',
   },
-  timezone: 'America/Sao_Paulo',
+  timezone: '-03:00',
 };

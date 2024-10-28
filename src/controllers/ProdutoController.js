@@ -20,7 +20,7 @@ class ProdutoController {
       return res.status(201).json(produto);
     } catch (error) {
       console.error(error); console.log(req.body);
-      return res.status(500).json({ error: 'Erro ao criar produto no controller', details: error.message });
+      return res.status(500).json({ error: 'Erro ao criar produto no controller', details: error });
     }
   }
 

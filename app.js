@@ -7,8 +7,8 @@ const homeRoutes = require('./src/routes/homeRoutes');
 const RoutesUser = require('./src/routes/RoutesUser');
 const clienteRoutes = require('./src/routes/RoutesCliente');
 const registerRoute = require('./src/routes/Register');
+const estoqueRoutes = require('./src/routes/RoutesEstoque');
 
-// Configurando variáveis de ambiente
 dotenv.config();
 
 class App {
@@ -19,19 +19,18 @@ class App {
   }
 
   middlewares() {
-    // Middleware para aceitar JSON e dados via URL-encoded
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }
 
   routes() {
-    // Definindo as rotas da aplicação
     this.app.use('/', homeRoutes);
     this.app.use('/api', clienteRoutes);
     this.app.use('/api', produtoRoutes);
     this.app.use('/api', vendaRoutes);
     this.app.use('/api', itemVendaRoutes);
     this.app.use('/api', RoutesUser);
+    this.app.use('/api', estoqueRoutes);
     this.app.use('/register', registerRoute);
   }
 }

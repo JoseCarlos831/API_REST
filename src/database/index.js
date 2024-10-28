@@ -16,12 +16,4 @@ models.forEach((model) => model.associate && model.associate(sequelize.models));
 /* models.forEach((model) => model.init(connection));
 models.forEach((model) => model.associate && model.associate(connection.models)); */
 
-sequelize.sync({ alter: true })
-  .then(() => {
-    console.log('Banco de dados sincronizado');
-  })
-  .catch((err) => {
-    console.error('Erro ao sincronizar banco de dados:', err);
-  });
-
 module.exports = sequelize;

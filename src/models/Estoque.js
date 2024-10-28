@@ -11,6 +11,7 @@ class Estoque extends Model {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        field: 'id_estoque',
       },
       quantidadeEstoque: {
         type: DataTypes.INTEGER,
@@ -39,9 +40,15 @@ class Estoque extends Model {
           },
         },
       },
+      produtoIdProduto: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'produto_id_produto',
+      },
     }, {
       sequelize,
       tableName: 'estoque',
+      timestamps: true,
     });
     return this;
   }

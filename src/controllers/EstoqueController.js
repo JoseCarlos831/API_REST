@@ -8,31 +8,43 @@ class EstoqueController {
       const estoques = await Estoque.findAll({ include: Produto });
       res.json(estoques);
     } catch (error) {
-      res.status(500).json({ error: 'Erro ao listar estoque' });
+      res.status(500).json({ error: 'Erro ao listar estoque', details: error });
     }
   }
-  /* Analisar os codigos porque provalvelmente esta errado */
 
+  // Registrar entrada no estoque
   async registrarEntrada(req, res) {
-    const { produtoId, quantidade } = req.body;
+    const { produtoIdProduto, quantidade } = req.body;
+    if (!produtoIdProduto || !quantidade || quantidade <= 0) {
+      return res.status(400).json({ error: 'Dados inválidos: produtoIdProduto e quantidade devem ser fornecidos e a quantidade deve ser maior que 0' });
+    }
     try {
-      const estoque = await Estoque.findOne({ where: { produtoId } });
-      if (!estoque) return res.status(404).json({ error: 'Estoque não encontrado' });
-
-      estoque.quantidadeEstoque += quantidade;
-      await estoque.save();
-
+      let estoque = await Estoque.findOne({ where: { produtoIdProduto } });
+      if (!estoque) {
+        estoque = await Estoque.create({
+          produtoIdProduto,
+          quantidadeEstoque: quantidade,
+          quantidadeMin: 0,
+          quantidadeMax: 100,
+        });
+      } else {
+        estoque.quantidadeEstoque += quantidade;
+        await estoque.save();
+      }
       return res.json(estoque);
     } catch (error) {
-      return res.status(500).json({ error: 'Erro ao registrar entrada no estoque' });
+      return res.status(500).json({ error: 'Erro ao registrar entrada no estoque', details: error });
     }
   }
 
   // Registrar saída do estoque
   async registrarSaida(req, res) {
-    const { produtoId, quantidade } = req.body;
+    const { produtoIdProduto, quantidade } = req.body;
+    if (!produtoIdProduto || !quantidade || quantidade <= 0) {
+      return res.status(400).json({ error: 'Dados inválidos: produto_id_produto e quantidade devem ser fornecidos e a quantidade deve ser maior que 0' });
+    }
     try {
-      const estoque = await Estoque.findOne({ where: { produtoId } });
+      const estoque = await Estoque.findOne({ where: { produtoIdProduto } });
       if (!estoque) return res.status(404).json({ error: 'Estoque não encontrado' });
 
       if (estoque.quantidadeEstoque < quantidade) {
@@ -44,7 +56,7 @@ class EstoqueController {
 
       return res.json(estoque);
     } catch (error) {
-      return res.status(500).json({ error: 'Erro ao registrar saída no estoque' });
+      return res.status(500).json({ error: 'Erro ao registrar saída no estoque', details: error });
     }
   }
 }

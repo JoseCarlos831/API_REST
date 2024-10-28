@@ -8,6 +8,12 @@ class Venda extends Model {
 
   static init(sequelize) {
     super.init({
+      id_venda: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        field: 'id_venda',
+      },
       dataVenda: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -18,9 +24,15 @@ class Venda extends Model {
           },
         },
       },
+      clienteidcliente: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'cliente_id_cliente',
+      },
     }, {
       sequelize,
       tableName: 'venda',
+      timestamps: true,
     });
     return this;
   }

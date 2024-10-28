@@ -8,12 +8,17 @@ class ItemVenda extends Model {
 
   static init(sequelize) {
     super.init({
+      id_itemvenda: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        field: 'id_itemvenda',
+      },
       quantidade: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          len: {
-            args: [3, 255],
+          isInt: {
             msg: 'A Quantidade precisa ser um número inteiro',
           },
         },
@@ -36,9 +41,20 @@ class ItemVenda extends Model {
           },
         },
       },
+      produtoIdProduto: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'produto_id_produto',
+      },
+      vendaIdvenda: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'venda_id_venda',
+      },
     }, {
       sequelize,
       tableName: 'itemvenda',
+      timestamps: true,
     });
     return this;
   }

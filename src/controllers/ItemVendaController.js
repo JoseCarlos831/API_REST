@@ -1,30 +1,40 @@
 const ItemVenda = require('../models/ItemVenda');
 const Produto = require('../models/Produto');
 
-/* codigo todo cagado fazer revisao */
-console.log('Revisar Item Venda');
-
 class ItemVendaController {
   // Cria um novo item de venda
   async createItemVenda(req, res) {
     try {
-      const { produtoId, quantidade, valorUnitario } = req.body;
+      const {
+        vendaIdvenda,
+        produtoIdProduto,
+        quantidade,
+        valorUnitario,
+      } = req.body;
+      if (!vendaIdvenda || !produtoIdProduto || !quantidade || !valorUnitario) {
+        return res.status(400).json({ error: 'Dados inválidos: vendaIdvenda, produtoIdProduto, quantidade e valorUnitario são obrigatórios' });
+      }
 
-      // Verificando se o produto existe
-      const produto = await Produto.findByPk(produtoId);
+      if (!Number.isInteger(quantidade)) {
+        return res.status(400).json({ error: 'A quantidade precisa ser um número inteiro' });
+      }
+
+      const produto = await Produto.findByPk(produtoIdProduto);
       if (!produto) {
         return res.status(404).json({ error: 'Produto não encontrado' });
       }
-
+      const valorTotal = quantidade * valorUnitario;
       const itemVenda = await ItemVenda.create({
-        produtoId,
+        vendaIdvenda,
+        produtoIdProduto,
         quantidade,
         valorUnitario,
+        valorTotal,
       });
 
       return res.status(201).json(itemVenda);
     } catch (error) {
-      return res.status(400).json({ error: 'Erro ao criar item de venda', details: error.message });
+      return res.status(500).json({ error: 'Erro ao criar item de venda', details: error.message });
     }
   }
 
@@ -49,10 +59,10 @@ class ItemVendaController {
         return res.status(404).json({ error: 'Item de venda não encontrado' });
       }
 
-      const { produtoId, quantidade, valorUnitario } = req.body;
+      const { produtoIdProduto, quantidade, valorUnitario } = req.body;
 
       const updatedItemVenda = await itemVenda.update({
-        produtoId,
+        produtoIdProduto,
         quantidade,
         valorUnitario,
       });

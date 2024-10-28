@@ -12,6 +12,7 @@ class Produto extends Model {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        field: 'id_produto',
       },
       nomeProduto: {
         type: DataTypes.STRING,

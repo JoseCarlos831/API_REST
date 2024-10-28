@@ -19,7 +19,6 @@ module.exports = {
       categoria: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       preco: {
         type: Sequelize.FLOAT,

@@ -1,27 +1,24 @@
 const Venda = require('../models/Venda');
 const Cliente = require('../models/Cliente');
 
-console.log('Revisar Venda');
-
 class VendaController {
   async createVenda(req, res) {
     try {
-      const { dataVenda, clienteId, valorTotal } = req.body;
+      const { dataVenda, clienteidcliente } = req.body;
 
-      const cliente = await Cliente.findByPk(clienteId);
+      const cliente = await Cliente.findByPk(clienteidcliente);
       if (!cliente) {
         return res.status(404).json({ error: 'Cliente não encontrado' });
       }
 
       const venda = await Venda.create({
         dataVenda,
-        clienteId,
-        valorTotal,
+        clienteidcliente,
       });
 
       return res.status(201).json(venda);
     } catch (error) {
-      return res.status(400).json({ error: 'Erro ao criar venda', details: error.message });
+      return res.status(500).json({ error: 'Erro ao criar venda', details: error.message });
     }
   }
 
@@ -44,18 +41,16 @@ class VendaController {
         return res.status(404).json({ error: 'Venda não encontrada' });
       }
 
-      const { dataVenda, clienteId, valorTotal } = req.body;
+      const { dataVenda, clienteidcliente } = req.body;
 
-      // Verificando se o cliente existe para a atualização
-      const cliente = await Cliente.findByPk(clienteId);
+      const cliente = await Cliente.findByPk(clienteidcliente);
       if (!cliente) {
         return res.status(404).json({ error: 'Cliente não encontrado' });
       }
 
       const updatedVenda = await venda.update({
         dataVenda,
-        clienteId,
-        valorTotal,
+        clienteidcliente,
       });
 
       return res.status(200).json(updatedVenda);

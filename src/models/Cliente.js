@@ -11,6 +11,7 @@ class Cliente extends Model {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        field: 'id_cliente',
       },
       nome: {
         type: DataTypes.STRING,
@@ -55,6 +56,7 @@ class Cliente extends Model {
     }, {
       sequelize,
       tableName: 'cliente',
+      timestamps: true,
     });
     return this;
   }
