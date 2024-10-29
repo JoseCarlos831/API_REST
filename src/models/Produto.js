@@ -66,6 +66,7 @@ class Produto extends Model {
     }, {
       sequelize,
       tableName: 'produto',
+      timestamps: true,
     });
     return this;
   }
