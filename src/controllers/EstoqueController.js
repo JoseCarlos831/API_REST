@@ -5,7 +5,9 @@ class EstoqueController {
   // Listar todos os itens do estoque
   async listarEstoque(req, res) {
     try {
-      const estoques = await Estoque.findAll({ include: Produto });
+      const estoques = await Estoque.findAll({
+        include: { model: Produto, as: 'produto' },
+      });
       res.json(estoques);
     } catch (error) {
       res.status(500).json({ error: 'Erro ao listar estoque', details: error });
@@ -26,6 +28,8 @@ class EstoqueController {
           quantidadeEstoque: quantidade,
           quantidadeMin: 0,
           quantidadeMax: 100,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         });
       } else {
         estoque.quantidadeEstoque += quantidade;

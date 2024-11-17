@@ -4,7 +4,7 @@ class ProdutoController {
   async createProduto(req, res) {
     const {
       nomeProduto,
-      descricao,
+      marca,
       categoria,
       preco,
       codigo,
@@ -12,7 +12,7 @@ class ProdutoController {
     try {
       const produto = await Produto.create({
         nomeProduto,
-        descricao,
+        marca,
         categoria,
         preco,
         codigo,
@@ -37,7 +37,7 @@ class ProdutoController {
     const { id } = req.params;
     const {
       nomeProduto,
-      descricao,
+      marca,
       categoria,
       preco,
     } = req.body;
@@ -49,7 +49,7 @@ class ProdutoController {
 
       await produto.update({
         nomeProduto,
-        descricao,
+        marca,
         categoria,
         preco,
       });

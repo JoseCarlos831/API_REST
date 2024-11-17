@@ -3,10 +3,8 @@ const dotenv = require('dotenv');
 const produtoRoutes = require('./src/routes/RoutesProduto');
 const vendaRoutes = require('./src/routes/RoutesVenda');
 const itemVendaRoutes = require('./src/routes/RoutesItemVenda');
-const homeRoutes = require('./src/routes/homeRoutes');
 const RoutesUser = require('./src/routes/RoutesUser');
 const clienteRoutes = require('./src/routes/RoutesCliente');
-const registerRoute = require('./src/routes/Register');
 const estoqueRoutes = require('./src/routes/RoutesEstoque');
 
 dotenv.config();
@@ -24,14 +22,12 @@ class App {
   }
 
   routes() {
-    this.app.use('/', homeRoutes);
     this.app.use('/api', clienteRoutes);
     this.app.use('/api', produtoRoutes);
     this.app.use('/api', vendaRoutes);
     this.app.use('/api', itemVendaRoutes);
     this.app.use('/api', RoutesUser);
     this.app.use('/api', estoqueRoutes);
-    this.app.use('/register', registerRoute);
   }
 }
 module.exports = new App().app;

@@ -7,7 +7,7 @@ class Estoque extends Model {
 
   static init(sequelize) {
     super.init({
-      id_estoque: {
+      idEstoque: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -21,6 +21,7 @@ class Estoque extends Model {
             msg: 'A quantidade precisa ser um número inteiro',
           },
         },
+        field: 'quantidadeEstoque', // Altere para corresponder ao nome exato no banco de dados
       },
       quantidadeMin: {
         type: DataTypes.INTEGER,
@@ -30,6 +31,7 @@ class Estoque extends Model {
             msg: 'A quantidade precisa ser um número inteiro',
           },
         },
+        field: 'quantidadeMin', // Altere para corresponder ao nome exato no banco de dados
       },
       quantidadeMax: {
         type: DataTypes.INTEGER,
@@ -39,11 +41,22 @@ class Estoque extends Model {
             msg: 'A quantidade precisa ser um número inteiro',
           },
         },
+        field: 'quantidadeMax', // Altere para corresponder ao nome exato no banco de dados
       },
       produtoIdProduto: {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: 'produto_id_produto',
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'created_at', // Mapeando para `created_at` no banco de dados
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        field: 'updated_at', // Mapeando para `updated_at` no banco de dados
       },
     }, {
       sequelize,
@@ -53,4 +66,5 @@ class Estoque extends Model {
     return this;
   }
 }
+
 module.exports = Estoque;

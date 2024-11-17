@@ -26,6 +26,7 @@ class ItemVenda extends Model {
       valorUnitario: {
         type: DataTypes.FLOAT,
         allowNull: false,
+        field: 'valor_unitario',
         validate: {
           isFloat: {
             msg: 'O Valor Unitario precisa ser um número inteiro ou de ponto flutuante',
@@ -35,6 +36,7 @@ class ItemVenda extends Model {
       valorTotal: {
         type: DataTypes.FLOAT,
         allowNull: false,
+        field: 'valor_total',
         validate: {
           isFloat: {
             msg: 'O Valor Total precisa ser um número inteiro ou de ponto flutuante',
@@ -59,4 +61,5 @@ class ItemVenda extends Model {
     return this;
   }
 }
+
 module.exports = ItemVenda;

@@ -5,8 +5,9 @@ const Produto = require('../models/Produto');
 const Venda = require('../models/Venda');
 const Estoque = require('../models/Estoque');
 const ItemVenda = require('../models/ItemVenda');
+const Usuario = require('../models/Usuario');
 
-const models = [Produto, Cliente, Venda, Estoque, ItemVenda];
+const models = [Produto, Cliente, Venda, Estoque, ItemVenda, Usuario];
 
 const sequelize = new Sequelize(databaseConfig);
 

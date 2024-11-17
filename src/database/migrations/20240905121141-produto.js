@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      descricao: {
+      marca: {
         type: Sequelize.STRING,
         allowNull: false,
       },

@@ -1,9 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
 
 class Usuario extends Model {
   static init(sequelize) {
     super.init({
+      id_usuario: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        field: 'id_usuario',
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -26,23 +31,23 @@ class Usuario extends Model {
           },
         },
       },
-    }, {
-      sequelize,
-      hooks: {
-        beforeSave: async (usuarioInstance) => {
-          if (usuarioInstance.changed('senha')) {
-            const hashedPassword = await bcrypt.hash(usuarioInstance.senha, 10);
-            usuarioInstance.setDataValue('senha', hashedPassword);
-          }
+      telefone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: {
+            args: [3, 255],
+            msg: 'telefone precisa ter entre 3 e 255 caracteres.',
+          },
         },
       },
+    }, {
+      sequelize,
+      tableName: 'usuario',
+      timestamps: true,
     });
     return this;
   }
-
-  // Método para verificar a senha durante o login
-  checkPassword(senha) {
-    return bcrypt.compareSync(senha, this.senha);
-  }
 }
+
 module.exports = Usuario;

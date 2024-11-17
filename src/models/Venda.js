@@ -17,17 +17,19 @@ class Venda extends Model {
       dataVenda: {
         type: DataTypes.DATE,
         allowNull: false,
-        validate: {
-          len: {
-            args: [3, 255],
-            msg: 'A data precisa estar entre ',
-          },
-        },
+        field: 'dataVenda',
       },
-      clienteidcliente: {
+      cliente_id_cliente: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'cliente_id_cliente',
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        field: 'created_at',
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        field: 'updated_at',
       },
     }, {
       sequelize,
@@ -37,4 +39,5 @@ class Venda extends Model {
     return this;
   }
 }
+
 module.exports = Venda;

@@ -23,14 +23,15 @@ class Produto extends Model {
             msg: 'Nome do produto precisa ter entre 3 e 255 caracteres.',
           },
         },
+        field: 'nome_produto',
       },
-      descricao: {
+      marca: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           len: {
-            args: [3, 255],
-            msg: 'A descrição precisa ter entre 3 e 255 caracteres.',
+            args: [3, 25],
+            msg: 'A marca precisa ter entre 3 e 25 caracteres.',
           },
         },
       },
@@ -56,7 +57,6 @@ class Produto extends Model {
       codigo: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true,
         validate: {
           isInt: {
             msg: 'Código precisa ser um número inteiro',
