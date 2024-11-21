@@ -34,8 +34,14 @@ class ItemVendaController {
 
       return res.status(201).json(itemVenda);
     } catch (error) {
-      return res.status(500).json({ error: 'Erro ao criar item de venda', details: error.message });
+      console.error('Erro ao criar item de venda:', error);
+      if (error.original && error.original.sqlState === '45000') {
+        return res.status(400).json({
+          error: 'Estoque insuficiente para realizar a venda',
+        });
+      }
     }
+    return res.status(500).json({ error: 'Erro ao criar item de venda' });
   }
 
   // Lista todos os itens de venda

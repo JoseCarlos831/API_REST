@@ -5,20 +5,14 @@ class VendaController {
   async createVenda(req, res) {
     try {
       const { dataVenda, clienteIdCliente } = req.body;
-      console.log('ID do cliente recebido:', clienteIdCliente);
 
       const cliente = await Cliente.findByPk(clienteIdCliente);
       if (!cliente) {
         return res.status(404).json({ error: 'Cliente não encontrado' });
       }
-      console.log('Criando venda com os dados:', {
-        dataVenda,
-        cliente_id_cliente: clienteIdCliente,
-      });
-
       const venda = await Venda.create({
         dataVenda,
-        cliente_id_cliente: clienteIdCliente, // Usando o nome exato da coluna
+        cliente_id_cliente: clienteIdCliente,
       });
 
       return res.status(201).json(venda);

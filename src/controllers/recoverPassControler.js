@@ -9,7 +9,7 @@ const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TO
 
 // Configuração do Nodemailer para enviar o e-mail
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // ou o serviço de e-mail que você estiver usando
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
@@ -25,15 +25,13 @@ class RecoverPassController {
         return res.status(404).json({ error: 'Usuário não encontrado...' });
       }
 
-      // Gera um token de redefinição de senha com validade de 15 minutos
-      const token = jwt.sign({ id_usuario: usuario.id_usuario }, process.env.JWT_RESET_SECRET, { expiresIn: '2h' });
+      const token = jwt.sign({ id_usuario: usuario.id_usuario }, process.env.JWT_RESET_SECRET, { expiresIn: '10m' });
 
       await client.messages.create({
         body: `Seu código de redefinição de senha é: ${token}`,
         from: process.env.TWILIO_PHONE_NUMBER,
         to: usuario.telefone,
       });
-      // Envia o token por e-mail para o usuário cadastrado
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: usuario.email,
